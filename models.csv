@@ -1,0 +1,17 @@
+vendor,model_id,tier,region,protocol,reasoning_effort,notes
+TypeSafe,typesafe/jev-1.13,decision,US,openrouter_decisions,,Pinned Jev snapshot; native typed choice via OpenRouter Decisions API
+OpenAI,openai/gpt-6-sol,frontier,US,chat,low,GPT-6 Sol with reasoning.effort=low
+OpenAI,openai/gpt-6-luna,light,US,chat,,Current lightweight GPT-6 family model
+OpenAI,openai/gpt-5.4-nano,light,US,chat,,Retained requested legacy baseline
+OpenAI,openai/gpt-5.4-mini,frontier,US,chat,,Retained requested legacy baseline
+Anthropic,~anthropic/claude-haiku-latest,light,US,chat,,OpenRouter rolling Claude Haiku alias
+Anthropic,~anthropic/claude-sonnet-latest,frontier,US,chat,,OpenRouter rolling Claude Sonnet alias
+Google,~google/gemini-flash-latest,light,US,chat,,OpenRouter rolling Gemini Flash alias
+Google,google/gemini-3.8-flash,frontier,US,chat,,Pinned Gemini Flash snapshot
+xAI,~x-ai/grok-latest,light,US,chat,,OpenRouter rolling Grok alias
+xAI,x-ai/grok-4.3,light,US,chat,,Used as fast-family replacement; OpenRouter says Grok 4.1 Fast is deprecated
+xAI,x-ai/grok-4.7,frontier,US,chat,,Pinned Grok snapshot
+DeepSeek,~deepseek/deepseek-flash-latest,light,CN,chat,,OpenRouter rolling DeepSeek Flash alias
+DeepSeek,deepseek/deepseek-v4.1-flash,frontier,CN,chat,,Pinned DeepSeek Flash snapshot
+Qwen,qwen/qwen3.8-flash,light,CN,chat,,Qwen Flash snapshot
+Qwen,qwen/qwen3.8-max-0902,frontier,CN,chat,,Pinned Qwen Max snapshot
