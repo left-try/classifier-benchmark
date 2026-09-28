@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1320" viewBox="0 0 1600 1320" role="img" aria-labelledby="title desc">
+<title id="title">Agentic Loop Classifier Benchmark — results at a glance</title>
+<desc id="desc">Jev leads the combined score among 16 models tested on 30 agent decision cases with five starts each. Includes model and scenario comparison tables and the scoring formula.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#09111c"/><stop offset="1" stop-color="#14283a"/></linearGradient>
+  <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#54e0b4"/><stop offset="1" stop-color="#91f0d3"/></linearGradient>
+  <radialGradient id="halo"><stop stop-color="#39d6a5" stop-opacity=".22"/><stop offset="1" stop-color="#39d6a5" stop-opacity="0"/></radialGradient>
+  <style>
+  text{font-family:Inter,ui-sans-serif,Segoe UI,Arial,sans-serif;fill:#eef5f7} .muted{fill:#9db0bf} .eyebrow{font-size:15px;font-weight:700;letter-spacing:2px;fill:#7ae7c4} .title{font-size:43px;font-weight:700;letter-spacing:-1px} .subtitle{font-size:18px;fill:#a9bbc8} .hero-score{font-size:94px;font-weight:700;letter-spacing:-4px;fill:#8af0cf} .hero-label{font-size:15px;font-weight:700;letter-spacing:1.4px;fill:#a7bdc8} .hero-model{font-size:24px;font-weight:600} .hero-note{font-size:16px;fill:#b1c3cc} .stat-value{font-size:27px;font-weight:700} .stat-label{font-size:13px;font-weight:700;letter-spacing:1px;fill:#9db0bf} .panel-title{font-size:17px;font-weight:700;letter-spacing:.5px} .col{font-size:12px;font-weight:700;letter-spacing:1px;fill:#91a5b5} .row{font-size:15px;font-weight:500} .score{fill:#8af0cf;font-weight:700} .scenario{font-size:12px;font-weight:700;letter-spacing:.7px;fill:#b3c7d1} .scenario-sub{font-size:13px;fill:#91a7b6} .scenario-score{font-size:25px;font-weight:700;fill:#8af0cf} .formula{font-size:20px;font-weight:600} .foot{font-size:14px;fill:#94a9b8}
+  </style>
+</defs>
+<rect width="1600" height="1320" rx="28" fill="url(#bg)"/>
+<circle cx="1320" cy="70" r="330" fill="url(#halo)"/>
+<rect x="70" y="56" width="5" height="63" rx="3" fill="url(#glow)"/>
+<text x="94" y="76" class="eyebrow">AGENTIC SYSTEMS  /  CLASSIFIER BENCHMARK</text>
+<text x="94" y="126" class="title">Fast decisions. Measured end to end.</text>
+<text x="94" y="161" class="subtitle">16 models  ·  30 labeled cases  ·  6 agent decisions  ·  5 starts per model / case</text>
+
+<rect x="70" y="194" width="1460" height="166" rx="20" fill="#152a38" stroke="#244253"/>
+<text x="102" y="230" class="hero-label">BEST COMBINED RESULT</text>
+<text x="98" y="322" class="hero-score">0.8</text>
+<text x="275" y="284" class="hero-model">typesafe/jev-1.13</text>
+<text x="275" y="316" class="hero-note">Exact score 0.808  ·  92% exact match  ·  $0.000019 / call  ·  362 ms E2E</text>
+<text x="1486" y="247" text-anchor="end" class="hero-label">TOTAL RUN</text>
+<text x="1486" y="286" text-anchor="end" class="stat-value">2,400 calls</text>
+<text x="1486" y="318" text-anchor="end" class="hero-note">$1.5105 scored-set spend</text>
+
+<g>
+  <rect x="70" y="382" width="460" height="76" rx="15" fill="#122131"/>
+  <text x="94" y="412" class="stat-label">HIGHEST ACCURACY</text><text x="94" y="443" class="stat-value">94%</text><text x="498" y="438" text-anchor="end" class="hero-note">gpt-6-luna</text>
+  <rect x="548" y="382" width="460" height="76" rx="15" fill="#122131"/>
+  <text x="572" y="412" class="stat-label">LOWEST COST / CALL</text><text x="572" y="443" class="stat-value">$0.000019</text><text x="976" y="438" text-anchor="end" class="hero-note">jev-1.13</text>
+  <rect x="1026" y="382" width="504" height="76" rx="15" fill="#122131"/>
+  <text x="1050" y="412" class="stat-label">LOWEST END-TO-END LATENCY</text><text x="1050" y="443" class="stat-value">362 ms</text><text x="1498" y="438" text-anchor="end" class="hero-note">jev-1.13</text>
+</g>
+
+<rect x="70" y="480" width="940" height="550" rx="18" fill="#0f1b29" stroke="#263b4b"/>
+<text x="96" y="520" class="panel-title">OVERALL LEADERBOARD</text>
+<text x="96" y="546" class="foot">Top 8 of 16 · ranked by exact score; displayed score rounded to tenths</text>
+<text x="116" y="578" class="col">#</text><text x="162" y="578" class="col">MODEL</text><text x="532" y="578" class="col">SCORE</text><text x="630" y="578" class="col">ACCURACY</text><text x="744" y="578" class="col">USD / CALL</text><text x="904" y="578" class="col">E2E</text>
+<rect x="94" y="594" width="888" height="48" rx="9" fill="#172c3c"/><text x="116" y="625" class="row muted">01</text><text x="162" y="625" class="row">jev-1.13</text><text x="532" y="625" class="row score">0.8</text><text x="630" y="625" class="row">92%</text><text x="744" y="625" class="row">$0.00002</text><text x="904" y="625" class="row">362 ms</text><rect x="94" y="644" width="888" height="48" rx="9" fill="#121e2d"/><text x="116" y="675" class="row muted">02</text><text x="162" y="675" class="row">gpt-5.4-nano</text><text x="532" y="675" class="row score">0.6</text><text x="630" y="675" class="row">88%</text><text x="744" y="675" class="row">$0.00004</text><text x="904" y="675" class="row">925 ms</text><rect x="94" y="694" width="888" height="48" rx="9" fill="#121e2d"/><text x="116" y="725" class="row muted">03</text><text x="162" y="725" class="row">gpt-5.4-mini</text><text x="532" y="725" class="row score">0.4</text><text x="630" y="725" class="row">89%</text><text x="744" y="725" class="row">$0.00016</text><text x="904" y="725" class="row">1191 ms</text><rect x="94" y="744" width="888" height="48" rx="9" fill="#121e2d"/><text x="116" y="775" class="row muted">04</text><text x="162" y="775" class="row">deepseek-flash-latest</text><text x="532" y="775" class="row score">0.3</text><text x="630" y="775" class="row">72%</text><text x="744" y="775" class="row">$0.00013</text><text x="904" y="775" class="row">1276 ms</text><rect x="94" y="794" width="888" height="48" rx="9" fill="#121e2d"/><text x="116" y="825" class="row muted">05</text><text x="162" y="825" class="row">claude-haiku-latest</text><text x="532" y="825" class="row score">0.3</text><text x="630" y="825" class="row">80%</text><text x="744" y="825" class="row">$0.00024</text><text x="904" y="825" class="row">1375 ms</text><rect x="94" y="844" width="888" height="48" rx="9" fill="#121e2d"/><text x="116" y="875" class="row muted">06</text><text x="162" y="875" class="row">deepseek-v4.1-flash</text><text x="532" y="875" class="row score">0.3</text><text x="630" y="875" class="row">73%</text><text x="744" y="875" class="row">$0.00013</text><text x="904" y="875" class="row">1510 ms</text><rect x="94" y="894" width="888" height="48" rx="9" fill="#121e2d"/><text x="116" y="925" class="row muted">07</text><text x="162" y="925" class="row">gpt-6-luna</text><text x="532" y="925" class="row score">0.2</text><text x="630" y="925" class="row">94%</text><text x="744" y="925" class="row">$0.00003</text><text x="904" y="925" class="row">2247 ms</text><rect x="94" y="944" width="888" height="48" rx="9" fill="#121e2d"/><text x="116" y="975" class="row muted">08</text><text x="162" y="975" class="row">claude-sonnet-latest</text><text x="532" y="975" class="row score">0.1</text><text x="630" y="975" class="row">86%</text><text x="744" y="975" class="row">$0.00053</text><text x="904" y="975" class="row">2755 ms</text>
+<text x="96" y="1007" class="foot">Full 16-model metrics: leaderboard.csv  ·  full scenario rankings: scenario_leaderboards.csv</text>
+
+<rect x="1030" y="480" width="500" height="550" rx="18" fill="#0f1b29" stroke="#263b4b"/>
+<text x="1054" y="520" class="panel-title">SCENARIO LEADERS</text>
+<text x="1054" y="546" class="foot">Top combined score within each agent decision</text>
+<rect x="1030" y="560" width="480" height="58" rx="11" fill="#121e2d"/><text x="1052" y="585" class="scenario">CONFIDENCE ESCALATION</text><text x="1052" y="608" class="scenario-sub">72% accuracy  ·  341 ms</text><text x="1467" y="601" text-anchor="end" class="scenario-score">0.6</text><rect x="1030" y="624" width="480" height="58" rx="11" fill="#121e2d"/><text x="1052" y="649" class="scenario">DELEGATION ROUTER</text><text x="1052" y="672" class="scenario-sub">100% accuracy  ·  407 ms</text><text x="1467" y="665" text-anchor="end" class="scenario-score">0.9</text><rect x="1030" y="688" width="480" height="58" rx="11" fill="#121e2d"/><text x="1052" y="713" class="scenario">GUARDRAIL</text><text x="1052" y="736" class="scenario-sub">80% accuracy  ·  345 ms</text><text x="1467" y="729" text-anchor="end" class="scenario-score">0.7</text><rect x="1030" y="752" width="480" height="58" rx="11" fill="#121e2d"/><text x="1052" y="777" class="scenario">MODEL ROUTER</text><text x="1052" y="800" class="scenario-sub">100% accuracy  ·  343 ms</text><text x="1467" y="793" text-anchor="end" class="scenario-score">0.9</text><rect x="1030" y="816" width="480" height="58" rx="11" fill="#121e2d"/><text x="1052" y="841" class="scenario">STOP CONTINUE</text><text x="1052" y="864" class="scenario-sub">100% accuracy  ·  351 ms</text><text x="1467" y="857" text-anchor="end" class="scenario-score">0.9</text><rect x="1030" y="880" width="480" height="58" rx="11" fill="#121e2d"/><text x="1052" y="905" class="scenario">TOOL SELECTOR</text><text x="1052" y="928" class="scenario-sub">100% accuracy  ·  383 ms</text><text x="1467" y="921" text-anchor="end" class="scenario-score">0.9</text>
+<text x="1054" y="962" class="foot">Jev leads all six scenario scoreboards.</text>
+
+<rect x="70" y="1052" width="1460" height="194" rx="18" fill="#152a38" stroke="#244253"/>
+<text x="98" y="1092" class="eyebrow">ONE SCORE  /  SAME RULES ACROSS SCENARIOS</text>
+<text x="98" y="1134" class="formula">Score = accuracy × cost factor × latency factor</text>
+<text x="98" y="1174" class="hero-note">Cost: 1 / (1 + √(mean call cost / $0.001))</text>
+<text x="98" y="1207" class="hero-note">Latency: 1 / (1 + (max(0, mean E2E ms − 500) / 1000)²)</text>
+<text x="1488" y="1177" text-anchor="end" class="foot">500 ms free-latency threshold  ·  cost from OpenRouter usage  ·  E2E includes client round trip</text>
+<text x="1488" y="1207" text-anchor="end" class="foot">Small 30-case starter set; results are directional pending holdout validation.</text>
+</svg>

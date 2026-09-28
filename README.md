@@ -1,46 +1,46 @@
 # Agentic Loop Classifier Benchmark
 
-Бенчмарк моделей для ограниченных решений внутри agent loop: выбор инструмента и модели, делегирование подзадач, guardrails и управление эскалацией. Цель — сравнить качество, стоимость и end-to-end задержку на одном фиксированном корпусе и получить таблицы/графики, пригодные для презентации.
+This benchmark compares models on structured decisions inside an agent loop: tool selection, model routing, delegation, guardrails, confidence escalation, and deciding whether an agent should stop or continue. It measures decision accuracy, cost, and end-to-end latency on a fixed labeled set, then produces presentation-ready tables and charts.
 
-## Что есть
+## What's included
 
-- `data/cases.jsonl` — стартовый набор из 30 размеченных случаев по 6 сценариям.
-- `models.csv` — начальный сбалансированный список актуальных кандидатов США/Китая и Jev. Идентификаторы, алиасы и доступность перепроверяйте перед запуском: модели и цены меняются.
-- `benchmark.py` — оценки, ранжирование по сценарию и генерация PNG-инфографики из собранного `results.jsonl`.
+- `data/cases.jsonl` — 30 labeled cases across six scenarios.
+- `models.csv` — a balanced shortlist of current US and Chinese model candidates, plus Jev. Recheck model IDs, aliases, availability, and pricing before future runs; these change over time.
+- `results.jsonl` — the complete scored dataset from the published run: 16 models × 30 cases × 5 starts = 2,400 calls.
+- `benchmark.py` — scoring, per-scenario rankings, report generation, and PNG charts.
+- `artifacts/` — Russian and English reports, leaderboard CSVs, a results infographic, charts, and rerun data for Haiku and Grok 4.3.
 
-Текущие исторические результаты считаются устаревшими: в них не было Jev, GPT-6, native JSON mode, использовался один запуск, а в shortlist были неверные rolling IDs. Полный новый запуск создаст фактические таблицы и графики заново.
+## Scenarios
 
-## Сценарии
+Each scenario asks the model for a compact structured decision rather than free-form text.
 
-Сценарии намеренно проверяют решения, где выходом является компактная структура, а не свободный текст.
+1. **`tool_selector`** — choose the right tool for the goal and context, or return `none`. For example: policy lookup → `search_docs`; arithmetic → `calculator`; unauthorized deletion → `none`.
+2. **`model_router`** — route a task to a suitable class of executor: a small model for field extraction, a coding model for debugging, a vision model for an image, or a stronger reasoning model for a complex plan.
+3. **`guardrail`** — choose `allow`, `deny`, or `escalate` based on the request, data, and permissions. One case checks that prompt injection inside a document is treated as data.
+4. **`delegation_router`** — decide whether to handle a task directly, delegate to a specialist, split it into sequential steps, or parallelize independent work. One case requires human approval for data deletion, which the available agents cannot provide.
+5. **`confidence_escalation`** — given evidence and confidence, route automatically, ask for clarification, or send the case to a human.
+6. **`stop_continue`** — choose the agent's next step from its current state: finish, call a tool, search again, or ask the user.
 
-1. **tool_selector** — выбрать правильный инструмент по цели и контексту либо ответить `none`. Например, поиск политики → `search_docs`, арифметика → `calculator`, несанкционированное удаление → `none`.
-2. **model_router** — направить задачу в подходящий класс исполнителя: дешёвая модель для извлечения полей, code для отладки, vision для картинки, сильная reasoning-модель для сложного плана.
-3. **guardrail** — решить `allow`, `deny` или `escalate` по типу запроса, данным и правам; отдельный пример проверяет, что prompt injection внутри документа трактуется как данные.
-4. **delegation_router** — решить, выполнять ли задачу самому, передать ли её профильному агенту, разбить ли на последовательные этапы или распараллелить независимую работу. Включён пример, где решение об удалении данных требует человеческого подтверждения, которого доступные агенты дать не могут.
-5. **confidence_escalation** — по уже заданным evidence и confidence решить: автоматически направить, запросить уточнение или отправить человеку.
-6. **stop_continue** — выбрать следующий шаг агента по состоянию задачи: закончить, вызвать инструмент, повторить поиск или спросить пользователя.
+This is a small first-iteration benchmark. Before using it to make a robust model choice, expand and deduplicate the dataset, add a hidden holdout set, and version each dataset used in a publication.
 
-Корпус мал и служит smoke benchmark для первой итерации. Для устойчивого выбора модели его нужно расширить, дедуплицировать и держать скрытую holdout-часть; версии корпуса фиксировать вместе с каждой публикацией.
+## Unified score (0–1)
 
-## Единый score (0–1)
+The same formula is used for every scenario. Accuracy is the exact-match rate. `C` is the mean per-call cost reported by OpenRouter usage. `L` is mean end-to-end latency from request submission to response receipt, including the network round trip. Each model/case pair is called five times; metrics are averaged over starts first, then over cases.
 
-Одинаковая формула применяется ко всем сценариям. Accuracy — доля точных решений, совпавших с эталоном. `C` — фактическая средняя цена вызова из OpenRouter usage. `L` — средняя end-to-end задержка от отправки запроса до получения ответа, включая сетевой round trip. На каждую пару модель/пример выполняется пять независимых вызовов; метрики усредняются сначала по стартам, затем по примерам.
-
-```
+```text
 cost_factor = 1 / (1 + sqrt(C / $0.001))
 latency_factor = 1 / (1 + (max(0, L_ms - 500) / 1000)^2)
 score = accuracy * cost_factor * latency_factor
 display_score = round(score, 1)
 ```
 
-Цена $0.001 за вызов и бесплатные первые 500 ms — явные исходные настройки для обсуждения, а не универсальные истины. Порог можно откалибровать один раз до измерений и версионировать, но нельзя менять между моделями или сценариями внутри сравнения. Качество здесь точное совпадение; дополнительно выводятся accuracy и факторы отдельно, чтобы score был объяснимым. Рейтинг каждого сценария сортируется по неокруглённому score; показанный балл округляется до десятых.
+The $0.001 cost reference and first 500 ms without a latency penalty are explicit starting assumptions, not universal constants. They can be calibrated before a benchmark run and versioned, but must remain fixed across models and scenarios in a comparison. Exact match is the quality measure; accuracy and both factors are also reported so the score remains interpretable. Scenario rankings use the unrounded score; displayed scores are rounded to tenths.
 
-Стоимость включает prompt и completion token charges. Latency измеряется клиентом end-to-end. Порядок запросов перемешан; весь прогон использует фиксированную конкуррентность 8. E2E latency поэтому отражает ответ под одинаковой нагрузкой этого harness, а не изолированный одиночный запрос. Сценарный рейтинг усредняет пять размеченных случаев внутри сценария. Jev используется через OpenRouter Decisions API с native typed choice, остальные модели — через Chat Completions с native JSON mode.
+Cost includes prompt and completion token charges. Latency is measured client-side end to end. Requests are shuffled, and the main run uses fixed concurrency of 8. Thus, E2E latency reflects response time under the same harness load, not isolated decoding speed. Each scenario score averages its five labeled cases. Jev uses OpenRouter's Decisions API with native typed choices; other models use Chat Completions with native JSON mode.
 
-## Запуск обработки результатов
+## Run the benchmark
 
-Python 3.10+, зависимости `pandas` и `matplotlib`:
+Requirements: Python 3.10+, `pandas`, and `matplotlib`.
 
 ```powershell
 python -m pip install pandas matplotlib
@@ -48,22 +48,22 @@ python run_benchmark.py --repeats 5
 python benchmark.py --results results.jsonl --out artifacts
 ```
 
-В `artifacts/report.md` появится автоматический разбор результатов: общий победитель, лидеры по accuracy/cost/latency, Pareto-набор, рейтинги сценариев, диапазоны штрафных факторов и оговорки по покрытию. Выводы строятся только из переданного `results.jsonl`; без полных фактических результатов отчёт и графики не генерируются.
+`artifacts/report.md` contains an automated analysis of the overall winner, accuracy/cost/latency leaders, the Pareto set, scenario rankings, score factors, and coverage caveats. The report and charts are generated from the supplied `results.jsonl`; incomplete or failed results block ranking.
 
-Строка результата в формате JSONL:
+Example JSONL result:
 
 ```json
 {"case_id":"TS-001","model_id":"google/gemini-2.5-flash","prediction":{"tool":"search_docs"},"latency_ms":420,"cost_usd":0.0003,"repeat":1}
 ```
 
-Укажите `OPENROUTER_API_KEY` как переменную окружения или в корневом `.env`; ключ не передаётся аргументом. По умолчанию запускаются все ID из `models.csv`, включая Jev, в случайном порядке с фиксированным seed. Это 16 моделей × 30 случаев × 5 стартов = 2,400 запросов при конкуррентности 8. Сократите круг через `--model ID`. Рейтинг требует полного покрытия и ровно пяти успешных вызовов на пару модель/пример. Скрипт сохраняет ответы по мере работы и хранит запрошенный ID вместе с разрешённой OpenRouter версией.
+Set `OPENROUTER_API_KEY` as an environment variable or in a root `.env` file; never pass the key as a command-line argument. By default, all IDs in `models.csv` run in a shuffled order with a fixed seed. Reduce the roster with `--model ID`. A ranking requires complete coverage and exactly five successful calls for every model/case pair. The runner saves responses as it goes and records both the requested ID and the OpenRouter-resolved model version.
 
-Каждый результат содержит `case_id`, `model_id`, `prediction`, `latency_ms`, `cost_usd`, `repeat` и протокол. Сопоставление выполняется по точной структуре. Любая ошибка или отсутствующая цена блокирует построение рейтинга; запустите `python retry_failed.py`, чтобы повторить только такие запросы до пересборки полного набора.
+Each result includes `case_id`, `model_id`, `prediction`, `latency_ms`, `cost_usd`, `repeat`, and protocol. Predictions are compared by exact structure. Any failed call or missing cost blocks ranking; run `python retry_failed.py` to retry only those requests before rebuilding the full result set.
 
-Выход: `leaderboard.csv`, `scenario_leaderboards.csv`, `report.md`, `summary.png`, `accuracy_cost.png`, `latency_by_scenario.png`. Для презентации используйте один и тот же `results.jsonl`, приложите версию корпуса и дату/условия запуска в подпись к графикам. Обзор инфографики набора и скоринга уже есть в `graphics/benchmark-overview.svg`.
+Outputs: `leaderboard.csv`, `scenario_leaderboards.csv`, `report.md` (Russian), `report.en.md` (English), `benchmark-infographic.svg`, `summary.png`, `accuracy_cost.png`, and `latency_by_scenario.png`. The English report includes full comparison tables and embeds the infographic and charts. For presentations, use the same `results.jsonl` and include the dataset version and run date/conditions in chart captions.
 
-## Первичный состав моделей
+## Model roster
 
-Список в `models.csv` содержит Jev, GPT-6 Sol с reasoning low, GPT-6 Luna, GPT-5.4 Nano/Mini, Grok 4.3 как замену отключённому Grok 4.1 Fast, и rolling/pinned модели Anthropic, Google, xAI, DeepSeek и Qwen. Rolling aliases и pinned snapshots показываются отдельными строками; фактический resolved ID фиксируется для каждого вызова.
+`models.csv` includes Jev, GPT-6 Sol with reasoning effort set to low, GPT-6 Luna, GPT-5.4 Nano/Mini, Grok 4.3 as a replacement for the deprecated Grok 4.1 Fast, and rolling/pinned candidates from Anthropic, Google, xAI, DeepSeek, and Qwen. Rolling aliases and pinned snapshots are listed separately; the resolved ID is recorded for every call.
 
-Shortlist актуализирован по [каталогам OpenRouter для Google](https://openrouter.ai/google), [OpenAI](https://openrouter.ai/provider/openai), [Anthropic](https://openrouter.ai/anthropic), [xAI](https://openrouter.ai/x-ai), [DeepSeek](https://openrouter.ai/deepseek) и [Qwen](https://openrouter.ai/qwen). [Jev / TypeSafe](https://typesafe.ai/blog/introducing-system-one-models-and-jev) вызывается через OpenRouter Decisions API; Grok 4.1 Fast исключён, так как OpenRouter пометил его deprecated и рекомендовал Grok 4.3.
+The shortlist was checked against OpenRouter catalogs for [Google](https://openrouter.ai/google), [OpenAI](https://openrouter.ai/provider/openai), [Anthropic](https://openrouter.ai/anthropic), [xAI](https://openrouter.ai/x-ai), [DeepSeek](https://openrouter.ai/deepseek), and [Qwen](https://openrouter.ai/qwen). [Jev / TypeSafe](https://typesafe.ai/blog/introducing-system-one-models-and-jev) is called through OpenRouter's Decisions API. Grok 4.1 Fast was excluded after OpenRouter marked it deprecated and recommended Grok 4.3.
