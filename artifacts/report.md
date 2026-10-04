@@ -1,3 +1,5 @@
+> Исторический отчёт старого Python-бенчмарка Classifier Benchmark. Он не создан Evolving Benchmark Rust CLI.
+
 # Отчёт по бенчмарку классификаторов Agentic Loop
 
 ## Краткий итог
