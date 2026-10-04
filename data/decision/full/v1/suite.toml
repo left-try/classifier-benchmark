@@ -1,0 +1,5 @@
+version = "v1"
+dataset = "decision-full-v1"
+cases = "cases.jsonl"
+scenarios = ["tool_selector", "model_router", "guardrail", "delegation_router", "confidence_escalation", "stop_continue"]
+scoring_policy = "decision-v1"

@@ -1,0 +1,27 @@
+suite = "decision/full"
+cases = "data/decision/full/v1/cases.jsonl"
+output_dir = "runs"
+repeats = 1
+concurrency = 1
+max_output_tokens = 160
+max_input_bytes = 16384
+max_retries = 2
+seed = 73
+model_spacing_ms = 0
+
+[filters]
+required_input_modality = "text"
+required_output_modality = "text"
+require_structured_output = true
+min_context_tokens = 0
+max_prompt_usd_per_million = 100.0
+max_completion_usd_per_million = 100.0
+newer_than_days = 0
+creators = []
+providers = []
+required_parameters = []
+include = []
+exclude = []
+
+[protocol_overrides]
+# "model-id" = "openrouter_decisions"
